@@ -70,75 +70,7 @@ Required R package:
 
 -   tidyverse (for data frame manipulation)
 
-``` r
-# Load required libraries
-library(tidyverse)
-
-# Load copy_reorg function
-source('copy_reorg.R')
-
-# Analysis directory - root directory where your betas, csvs, and code live
-analysis_dir <- '~/Box Sync/Writing/Blog/Beta_Reorg/Data/'
-
-# Names of the old and new directories
-# The new directory will be created for each participant, if it does not already exist
-old_beta_dir <- 'Data/betas_nii'
-new_beta_dir <- 'Data/reorg_betas'
-```
-
 In the provided example, the csv involves the presentation order for an individual participant. The column encode\_num included the presentation order during study, allowing for linking between the practice phase and the encoding phase. The column trial\_num maintains the presentation order, which reflects the output order of the betas. The script sorts by phase, then trial\_type, then encode\_num, which clusters items into their conditions, and then sorts them consistently within that condition, so that trial pairs can be found on a diagonal.
-
-``` r
-# Here I provide an example of how you might create the new names for each beta based on participant-specific randomizations
-# You should edit this entire section to make it relevant to your study
-
-# Provide a list of your participants
-subs <- c(02, 04)
-
-# Some basic setup
-csv_stem <- '_RSA_clean.csv'
-
-# Loop through participants
-for (isub in 1:length(subs)) {
-  
-  # Generate name of new directory for current participant and create the directory if it doesn't already exist
-  sub_new_beta_dir <- paste0(new_beta_dir, '_S', formatC(subs[isub], width = 2, flag = "0")) 
-  if (!dir.exists(sub_new_beta_dir)) {
-    dir.create(sub_new_beta_dir)
-    }
-  
-  # Create a list of all of the old betas
-  sub_old_beta_dir <- paste0(old_beta_dir, '_S', formatC(subs[isub], width = 2, flag = "0")) 
-  old_beta_list <- list.files(sub_old_beta_dir, full.names = T)
-  
-  # Read in csv with trial information for this participant
-  curr_trial_info <- read_csv(paste0('Data/S', formatC(subs[isub], width = 2, flag = "0"), csv_stem))
-  
-  # Generate list of new betas by referencing csv 
-  # Sort the data on condition and encoding sequence within condition, produce generate new order and append column, and
-  # sort back to presentation order
-  curr_trial_info <- curr_trial_info %>%
-    arrange(run, phase, trial_type, encode_num) %>%
-    group_by(run, phase, trial_type) %>%
-    mutate(order_in_cond = ave(trial_type == trial_type, trial_type, FUN = cumsum),
-           new_beta_name = paste0(sub_new_beta_dir, '/Run', run, '_', phase,
-                                  '_', trial_type, '_', order_in_cond, '.nii')) %>%
-    ungroup() %>%
-    arrange(run, trial_num)
-  
-  # Create a dataframe that includes old names and new names
-  master_beta_list <- tibble(old_names = old_beta_list, new_names = curr_trial_info$new_beta_name)
-
-  # Call function that copies and renames betas for the current participant
-  copy_reorg(master_beta_list$old_names, master_beta_list$new_names)
-  
-}
-```
-
-``` r
-# Show dataframes as example from last participant
-knitr::kable(curr_trial_info[1:18, ], align = 'l')
-```
 
 | sj  | run | trial\_num | context\_num | encode\_num | trial\_type | phase  | order\_in\_cond | new\_beta\_name                                |
 |:----|:----|:-----------|:-------------|:------------|:------------|:-------|:----------------|:-----------------------------------------------|
@@ -160,10 +92,6 @@ knitr::kable(curr_trial_info[1:18, ], align = 'l')
 | 4   | 1   | 28         | 3            | 5           | RS          | Prac   | 2               | Data/reorg\_betas\_S04/Run1\_Prac\_RS\_2.nii   |
 | 4   | 1   | 29         | 6            | 12          | RP          | Prac   | 3               | Data/reorg\_betas\_S04/Run1\_Prac\_RP\_3.nii   |
 | 4   | 1   | 30         | 4            | 8           | RP          | Prac   | 2               | Data/reorg\_betas\_S04/Run1\_Prac\_RP\_2.nii   |
-
-``` r
-knitr::kable(master_beta_list[1:18, ], align = 'l')
-```
 
 | old\_names                                      | new\_names                                     |
 |:------------------------------------------------|:-----------------------------------------------|
