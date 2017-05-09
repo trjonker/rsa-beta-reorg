@@ -1,9 +1,10 @@
 # rsa-beta-reorg
 A tool for preparing your beta images for the RSA Toolbox
-Introduction to the Function of this Workbook
+
+Introduction to the Function of this Notebook
 ---------------------------------------------
 
-This workbook assumes knowledge of [LSS](https://www.researchgate.net/profile/Tyler_Davis7/publication/266027316_The_impact_of_study_design_on_pattern_estimation_for_single-trial_multivariate_pattern_analysis/links/560f387e08ae0fc513eed791.pdf) (Mumford et al., 2014) and of the [RSA Toolbox](http://www.mrc-cbu.cam.ac.uk/methods-and-resources/toolboxes/) (Nili et al., 2014).
+This notebook assumes knowledge of [LSS](https://www.researchgate.net/profile/Tyler_Davis7/publication/266027316_The_impact_of_study_design_on_pattern_estimation_for_single-trial_multivariate_pattern_analysis/links/560f387e08ae0fc513eed791.pdf) (Mumford et al., 2014) and of the [RSA Toolbox](http://www.mrc-cbu.cam.ac.uk/methods-and-resources/toolboxes/) (Nili et al., 2014).
 
 The purpose of this workbook is to provide an example of how to prepare yourself to run representational similarity analyses (RSA) on specific trial pairs using the RSA Toolbox. It assumes that you have already completed LSS modeling of your trials (there are some notes on this step in the LSS Modeling section below.
 
