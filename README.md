@@ -114,7 +114,7 @@ In the provided example, the csv involves the presentation order for an individu
 | Data/betas\_nii\_S04/Sess001\_Prac\_RS\_002.nii | Data/reorg\_betas\_S04/Run1\_Prac\_RP\_3.nii   |
 | Data/betas\_nii\_S04/Sess001\_Prac\_RS\_003.nii | Data/reorg\_betas\_S04/Run1\_Prac\_RP\_2.nii   |
 
-The output is a new folder with the reorganized betas. This organization will be the same for all participants, so these new betas can be fed into the RSA Toolbox allong with a single standardized mask that can be used to pull out the same cells for every participant. For example, this mask will pull out the RP condition:
+The output is a new folder with the reorganized betas. This organization will be the same for all participants, so these new betas can be fed into the RSA Toolbox along with a single standardized mask that can be used to pull out the same cells for every participant. For example, this mask will pull out the RP condition:
 
 ![](figures/mask_rp.png)
 
